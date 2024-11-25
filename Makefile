@@ -42,7 +42,7 @@ test-setup: vendor
 
 .PHONY: image
 image: generated_files
-	docker build -t metacontrollerio/metacontroller:$(TAG) .
+	docker build -t abbywang678/metacontroller:v2.0.4-cvf .
 
 
 # CRD generation
@@ -67,7 +67,7 @@ generated_files: deepcopy clientset lister informer
 # also builds vendored version of deepcopy-gen tool
 .PHONY: deepcopy
 deepcopy:
-	@go get k8s.io/code-generator/cmd/deepcopy-gen@"${CODE_GENERATOR_VERSION}"
+	@go install k8s.io/code-generator/cmd/deepcopy-gen@"${CODE_GENERATOR_VERSION}"
 	@echo "+ Generating deepcopy funcs for $(API_GROUPS)"
 	@deepcopy-gen \
 		--input-dirs $(PKG)/pkg/apis/$(API_GROUPS) \
@@ -77,7 +77,7 @@ deepcopy:
 # also builds vendored version of client-gen tool
 .PHONY: clientset
 clientset:
-	@go get k8s.io/code-generator/cmd/client-gen@"${CODE_GENERATOR_VERSION}"
+	@go install k8s.io/code-generator/cmd/client-gen@"${CODE_GENERATOR_VERSION}"
 	@echo "+ Generating clientsets for $(API_GROUPS)"
 	@client-gen \
 		--fake-clientset=false \
@@ -89,7 +89,7 @@ clientset:
 # also builds vendored version of lister-gen tool
 .PHONY: lister
 lister:
-	@go get k8s.io/code-generator/cmd/lister-gen@"${CODE_GENERATOR_VERSION}"
+	@go install k8s.io/code-generator/cmd/lister-gen@"${CODE_GENERATOR_VERSION}"
 	@echo "+ Generating lister for $(API_GROUPS)"
 	@lister-gen \
 		--input-dirs $(PKG)/pkg/apis/$(API_GROUPS) \
@@ -99,7 +99,7 @@ lister:
 # also builds vendored version of informer-gen tool
 .PHONY: informer
 informer:
-	@go get k8s.io/code-generator/cmd/informer-gen@"${CODE_GENERATOR_VERSION}"
+	@go install k8s.io/code-generator/cmd/informer-gen@"${CODE_GENERATOR_VERSION}"
 	@echo "+ Generating informer for $(API_GROUPS)"
 	@informer-gen \
 		--input-dirs $(PKG)/pkg/apis/$(API_GROUPS) \

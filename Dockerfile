@@ -1,4 +1,4 @@
-FROM golang:1.16.7 AS build
+FROM golang:1.23.2 AS build
 
 ARG TAG
 ENV TAG=${TAG:-dev}
@@ -8,7 +8,7 @@ WORKDIR /go/src/metacontroller/
 ENV CGO_ENABLED=0
 RUN make install
 
-FROM alpine:3.14.1@sha256:eb3e4e175ba6d212ba1d6e04fc0782916c08e1c9d7b45892e9796141b1d379ae
+FROM alpine:3.20.3@sha256:1e42bbe2508154c9126d48c2b8a75420c3544343bf86fd041fb7527e017a4b4a
 COPY --from=build /go/bin/metacontroller /usr/bin/metacontroller
 RUN apk update && apk add --no-cache ca-certificates
 CMD ["/usr/bin/metacontroller"]
